@@ -17,132 +17,53 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
         MainPlayer.vy = 0
     }
 })
+sprites.onOverlap(SpriteKind.Hitbox, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+})
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    Swapping += 1
-    if (Swapping == 1) {
-        CharacterSwapping(1)
+    if (Facing_Right == false) {
+        Swapping += 1
+        if (Swapping == 0) {
+            CharacterSwapping(0)
+        }
+        if (Swapping == 1) {
+            CharacterSwapping(1)
+        }
+        if (Swapping == 2) {
+            CharacterSwapping(2)
+        }
+        if (Swapping == 3) {
+            CharacterSwapping(3)
+        }
+        if (Swapping == 4) {
+            Swapping = 0
+            CharacterSwapping(0)
+        }
     }
-    if (Swapping == 2) {
-        CharacterSwapping(2)
-    }
-    if (Swapping == 3) {
-        CharacterSwapping(3)
-    }
-    if (Swapping == 4) {
-        CharacterSwapping(0)
-        Swapping = 0
+    if (Facing_Right == true) {
+        Swapping += 1
+        if (Swapping == 0) {
+            CharacterSwapping(4)
+        }
+        if (Swapping == 1) {
+            CharacterSwapping(5)
+        }
+        if (Swapping == 2) {
+            CharacterSwapping(6)
+        }
+        if (Swapping == 3) {
+            CharacterSwapping(7)
+        }
+        if (Swapping == 4) {
+            Swapping = 0
+            CharacterSwapping(4)
+        }
     }
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MainPlayer) {
         if (game.runtime() - LastTimeStamp >= 500 && Facing_Right == false) {
             LastTimeStamp = game.runtime()
-            animation.runImageAnimation(
-            MainPlayer,
-            [img`
-                ........................
-                ....ffffff..............
-                ..ffeeeef2f.............
-                .ffeeeef222f............
-                .feeeffeeeef...cc.......
-                .ffffee2222ef.cdc.......
-                .fe222ffffe2fcddc.......
-                fffffffeeeffcddc........
-                ffe44ebf44ecddc.........
-                fee4d41fddecdc..........
-                .feee4dddedccc..........
-                ..ffee44e4dde...........
-                ...f222244ee............
-                ...f2222e2f.............
-                ...f444455f.............
-                ....ffffff..............
-                .....fff................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                `,img`
-                ........................
-                .......fff..............
-                ....fffff2f.............
-                ..ffeeeee22ff...........
-                .ffeeeeee222ff..........
-                .feeeefffeeeef..........
-                .fffffeee2222ef.........
-                fffe222fffffe2f.........
-                fffffffffeeefff.....cc..
-                fefe44ebbf44eef...ccdc..
-                .fee4d4bbfddef..ccddcc..
-                ..feee4dddddfeecdddc....
-                ...f2222222eeddcdcc.....
-                ...f444445e44ddccc......
-                ...ffffffffeeee.........
-                ...fff...ff.............
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                `,img`
-                .......ff...............
-                ....ffff2ff.............
-                ..ffeeeef2ff............
-                .ffeeeeef22ff...........
-                .feeeeffeeeef...........
-                .fffffee2222ef..........
-                fffe222ffffe2f..........
-                ffffffffeeefff..........
-                fefe44ebf44eef..........
-                .fee4d4bfddef...........
-                ..feee4dddee.c..........
-                ...f2222eeddeccccccc....
-                ...f444e44ddecddddd.....
-                ...fffffeeee.ccccc......
-                ..ffffffff...c..........
-                ..fff..ff...............
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                `,img`
-                ....ffffff..............
-                ..ffeeeef2f.............
-                .ffeeeef222f............
-                .feeeffeeeef............
-                .ffffee2222ef...........
-                .fe222ffffe2f...........
-                fffffffeeefff...........
-                ffe44ebf44eef...........
-                fee4d41fddef............
-                .feee4ddddf.............
-                ..fdde444ef.............
-                ..fdde22ccc.............
-                ...eef22cdc.............
-                ...f4444cddc............
-                ....fffffcddc...........
-                .....fff..cddc..........
-                ...........cdc..........
-                ............cc..........
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                ........................
-                `],
-            100,
-            false
-            )
             RHitBoxSlash = sprites.create(img`
                 . . . . . . . . . . . . . . . . 
                 . . . . . . . . . . . . . . . . 
@@ -162,6 +83,27 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
                 . . . . . . . . . . . . . . . . 
                 `, SpriteKind.Hitbox)
         }
+        if (game.runtime() - LastTimeStamp >= 500 && Facing_Right == true) {
+            LastTimeStamp = game.runtime()
+            RHitBoxSlash = sprites.create(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                3 3 3 3 3 3 . . . . . . . . . . 
+                3 . . . . 3 3 3 3 3 3 3 . . . . 
+                3 . . . . . . 3 3 . 3 3 3 3 . . 
+                3 . . . . . . . . . . . . 3 3 3 
+                3 . . . . . . . . . . . . . 3 3 
+                3 . . . . . . . . . . . . . 3 3 
+                3 . . . . . . . . . . 3 3 3 3 3 
+                3 . . . . . . . 3 3 3 3 . . . . 
+                3 . . . . . . 3 3 . . . . . . . 
+                3 . . 3 3 3 3 3 3 . . . . . . . 
+                3 . . 3 . . . . . . . . . . . . 
+                3 3 3 3 . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `, SpriteKind.Hitbox)
+        }
     }
 })
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -174,21 +116,72 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function CallSpawn (num: number) {
     if (num == 0) {
-        for (let value of tiles.getTilesByType(sprites.dungeon.collectibleBlueCrystal)) {
-            tiles.placeOnTile(MainPlayer, value)
-        }
+        tiles.placeOnTile(MainPlayer, tiles.getTileLocation(4, 3))
+    }
+    if (num == 1) {
+        list = [img`
+            . . . . . . . . . . . . . . . . 
+            . . . . b b b b . . . . . . . . 
+            . . . b 3 3 3 3 b b b b . . . . 
+            . . b b 3 3 3 3 3 3 1 1 b c c . 
+            . . b 3 3 3 3 3 3 1 1 1 3 c c c 
+            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
+            . . c 1 1 3 3 3 b c c c c b b f 
+            . c c 3 3 3 b b d d d c c c b f 
+            c b 3 3 b b d d d d d d b c b f 
+            c 3 3 c b d d d d d d d d b c . 
+            f 3 c c c d d d d d d c c d c . 
+            f b c c c d d c c d d d d d f . 
+            f b c c c d d d d d b b b d f . 
+            f f b b c f f b d d d d d c . . 
+            . f f f f d d b b d d d b f . . 
+            . . . . f d d d b c c f f f . . 
+            `, img`
+            . . . . . . . . . . . . . . . . 
+            . . . . c c c c . . . . . . . . 
+            . . c c 5 5 5 5 c c . . . . . . 
+            . c 5 5 5 5 5 5 5 5 c . . . . . 
+            c 5 5 5 5 5 1 f 5 5 5 c . . . . 
+            c 5 5 5 5 5 f f 5 5 5 5 c . . . 
+            c 5 5 5 5 5 5 5 5 5 5 5 c . . . 
+            c c b b 1 b 5 5 5 5 5 5 d c . . 
+            c 5 3 3 3 5 5 5 5 5 d d d c . . 
+            . b 5 5 5 5 5 5 5 5 d d d c . . 
+            . . c b b c 5 5 b d d d d c c . 
+            . c b b c 5 5 b b d d d d c d c 
+            . c c c c c c d d d d d d d d c 
+            . . . c c c c d 5 5 b d d d c . 
+            . . c c c c c b 5 5 b c c c . . 
+            . . c b b b c d 5 5 b c . . . . 
+            `, img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . b 5 5 b . . . 
+            . . . . . . b b b b b b . . . . 
+            . . . . . b b 5 5 5 5 5 b . . . 
+            . b b b b b 5 5 5 5 5 5 5 b . . 
+            . b d 5 b 5 5 5 5 5 5 5 5 b . . 
+            . . b 5 5 b 5 d 1 f 5 d 4 f . . 
+            . . b d 5 5 b 1 f f 5 4 4 c . . 
+            b b d b 5 5 5 d f b 4 4 4 4 b . 
+            b d d c d 5 5 b 5 4 4 4 4 4 4 b 
+            c d d d c c b 5 5 5 5 5 5 5 b . 
+            c b d d d d d 5 5 5 5 5 5 5 b . 
+            . c d d d d d d 5 5 5 5 5 d b . 
+            . . c b d d d d d 5 5 5 b b . . 
+            . . . c c c c c c c c b b . . . 
+            `]
+        CallEnemies(list)
     }
 }
 function StagePlay () {
-    list = [0, 1, 2]
-    Island = list._pickRandom()
-    if (Island == 0) {
+    if (Difficulty_Tweak == 0) {
         tiles.setCurrentTilemap(tilemap`level1`)
     }
-    if (Island == 1) {
+    if (Difficulty_Tweak == 1) {
         tiles.setCurrentTilemap(tilemap`level1`)
     }
-    if (Island == 2) {
+    if (Difficulty_Tweak == 2) {
         tiles.setCurrentTilemap(tilemap`level1`)
     }
 }
@@ -224,12 +217,15 @@ function CallMainPlayer () {
     scene.cameraFollowSprite(MainPlayer)
 }
 sprites.onCreated(SpriteKind.Hitbox, function (sprite) {
-    if (MainPlayer) {
-        if (RHitBoxSlash) {
-            sprite.setPosition(MainPlayer.x + 5, MainPlayer.y)
-            pause(100)
-            sprites.destroy(sprite)
-        }
+    if (Facing_Right == false) {
+        sprite.setPosition(MainPlayer.x + 5, MainPlayer.y)
+        pause(100)
+        sprites.destroy(sprite)
+    }
+    if (Facing_Right == true) {
+        sprite.setPosition(MainPlayer.x - 5, MainPlayer.y)
+        pause(100)
+        sprites.destroy(sprite)
     }
 })
 function TimeStart () {
@@ -255,6 +251,28 @@ function CharacterSwapping (num: number) {
             . . . . . . f f f f f f . . . . 
             . . . . . . . f f f . . . . . . 
             `)
+        Facing_Right = false
+    }
+    if (num == 4) {
+        MainPlayer.setImage(img`
+            . . . . f f f f f f . . . . . . 
+            . . . f 2 f e e e e f f . . . . 
+            . . f 2 2 2 f e e e e f f . . . 
+            . . f e e e e f f e e e f . . . 
+            . f e 2 2 2 2 e e f f f f . . . 
+            . f 2 e f f f f 2 2 2 e f . . . 
+            . f f f e e e f f f f f f f . . 
+            . f e e 4 4 f b e 4 4 e f f . . 
+            . . f e d d f 1 4 d 4 e e f . . 
+            . . . f d d d d 4 e e e f . . . 
+            . . . f e 4 4 4 e e f f . . . . 
+            . . . f 2 2 2 e d d 4 . . . . . 
+            . . . f 2 2 2 e d d e . . . . . 
+            . . . f 5 5 4 f e e f . . . . . 
+            . . . . f f f f f f . . . . . . 
+            . . . . . . f f f . . . . . . . 
+            `)
+        Facing_Right = true
     }
     if (num == 1) {
         MainPlayer.setImage(img`
@@ -275,6 +293,28 @@ function CharacterSwapping (num: number) {
             . . . . f f d 1 d 1 d 1 f f . . 
             . . . . . . f f b b f f . . . . 
             `)
+        Facing_Right = false
+    }
+    if (num == 5) {
+        MainPlayer.setImage(img`
+            . . . f 4 4 f f f f . . . . . . 
+            . . f 4 5 5 4 5 f b f f . . . . 
+            . . f 5 5 5 5 4 e 3 3 b f . . . 
+            . . f e 4 4 4 e 3 3 3 3 b f . . 
+            . . f 3 3 3 3 3 3 3 3 3 3 f . . 
+            . f 3 3 e e 3 b e 3 3 3 3 f . . 
+            . f 3 3 e e e f f 3 3 3 3 f . . 
+            . f 3 e e e f b f b b b b f . . 
+            . . f e 4 4 f 1 e b b b b f . . 
+            . . . f 4 4 4 4 f b b b b f f . 
+            . . . f e e e f f f b b b b f . 
+            . . . f d d d e 4 4 f b b f . . 
+            . . . f d d d e 4 4 e f f . . . 
+            . . f b d b d b e e b f . . . . 
+            . . f f 1 d 1 d 1 d f f . . . . 
+            . . . . f f b b f f . . . . . . 
+            `)
+        Facing_Right = true
     }
     if (num == 2) {
         MainPlayer.setImage(img`
@@ -295,6 +335,28 @@ function CharacterSwapping (num: number) {
             . . . . f f f f f f . . . . 
             . . . . . f f f . . . . . . 
             `)
+        Facing_Right = false
+    }
+    if (num == 6) {
+        MainPlayer.setImage(img`
+            . . . . f f f f f . f f f . 
+            . . . f f c c c c f f f f f 
+            . . f c c c c c c b f f f f 
+            . . f c c c c c c 3 c f f f 
+            . f c c c c c c c c 3 3 f . 
+            . f c c 4 c c c c c f f f . 
+            . f f e 4 4 c c c f f f f . 
+            . f f e 4 4 f b f 4 4 f f . 
+            . . f f d d f 1 4 d 4 f . . 
+            . . . f d d d d 4 f f f . . 
+            . . . f e 4 4 4 e e f . . . 
+            . . . f 3 3 3 e d d 4 . . . 
+            . . . f 3 3 3 e d d e . . . 
+            . . . f 6 6 6 f e e f . . . 
+            . . . . f f f f f f . . . . 
+            . . . . . . f f f . . . . . 
+            `)
+        Facing_Right = true
     }
     if (num == 3) {
         MainPlayer.setImage(img`
@@ -315,6 +377,28 @@ function CharacterSwapping (num: number) {
             . . . f f f f f f . . . . 
             . . . . f f f . . . . . . 
             `)
+        Facing_Right = false
+    }
+    if (num == 7) {
+        MainPlayer.setImage(img`
+            . . . . . f f f f f . . . 
+            . . . f f f f f f f f f . 
+            . . f f f c f f f f f f . 
+            . . f f c f f f c f f f f 
+            f f c c f f f c c f f c f 
+            f f f f f e f f f f c c f 
+            . f f f e e f f f f f f f 
+            . . f f e e f b f e e f f 
+            . . . f 4 4 f 1 e 4 e f . 
+            . . . f 4 4 4 4 e f f f . 
+            . . . f f e e e e e f . . 
+            . . . f 7 7 7 e 4 4 e . . 
+            . . . f 7 7 7 e 4 4 e . . 
+            . . . f 6 6 6 f e e f . . 
+            . . . . f f f f f f . . . 
+            . . . . . . f f f . . . . 
+            `)
+        Facing_Right = true
     }
 }
 function Difficulty_Men (num: number) {
@@ -345,30 +429,101 @@ function Difficulty_Men (num: number) {
         Difficulty_Menu.onButtonPressed(controller.A, function (selection, selectedIndex) {
             Difficulty_Menu.close()
             if (selectedIndex == 0) {
+                Difficulty_Tweak = 0
                 StagePlay()
                 CallMainPlayer()
                 CallSpawn(0)
+                CallSpawn(1)
             }
             if (selectedIndex == 1) {
                 StagePlay()
                 CallMainPlayer()
                 CallSpawn(0)
+                CallSpawn(1)
             }
             if (selectedIndex == 2) {
                 StagePlay()
                 CallMainPlayer()
                 CallSpawn(0)
+                CallSpawn(1)
             }
         })
     }
     Swapping = 0
 }
+function CallEnemies (list: Image[]) {
+    for (let value of tiles.getTilesByType(sprites.swamp.swampTile0)) {
+        Enemies = sprites.create(list._pickRandom(), SpriteKind.Enemy)
+        tiles.placeOnTile(Enemies, value)
+        if (Enemies.image.equals(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . b b b b . . . . . . . . 
+            . . . b 3 3 3 3 b b b b . . . . 
+            . . b b 3 3 3 3 3 3 1 1 b c c . 
+            . . b 3 3 3 3 3 3 1 1 1 3 c c c 
+            . . b 1 1 3 3 3 3 3 3 3 3 3 b c 
+            . . c 1 1 3 3 3 b c c c c b b f 
+            . c c 3 3 3 b b d d d c c c b f 
+            c b 3 3 b b d d d d d d b c b f 
+            c 3 3 c b d d d d d d d d b c . 
+            f 3 c c c d d d d d d c c d c . 
+            f b c c c d d c c d d d d d f . 
+            f b c c c d d d d d b b b d f . 
+            f f b b c f f b d d d d d c . . 
+            . f f f f d d b b d d d b f . . 
+            . . . . f d d d b c c f f f . . 
+            `)) {
+            Enemies.setVelocity(15, 0)
+        }
+        if (Enemies.image.equals(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . c c c c . . . . . . . . 
+            . . c c 5 5 5 5 c c . . . . . . 
+            . c 5 5 5 5 5 5 5 5 c . . . . . 
+            c 5 5 5 5 5 1 f 5 5 5 c . . . . 
+            c 5 5 5 5 5 f f 5 5 5 5 c . . . 
+            c 5 5 5 5 5 5 5 5 5 5 5 c . . . 
+            c c b b 1 b 5 5 5 5 5 5 d c . . 
+            c 5 3 3 3 5 5 5 5 5 d d d c . . 
+            . b 5 5 5 5 5 5 5 5 d d d c . . 
+            . . c b b c 5 5 b d d d d c c . 
+            . c b b c 5 5 b b d d d d c d c 
+            . c c c c c c d d d d d d d d c 
+            . . . c c c c d 5 5 b d d d c . 
+            . . c c c c c b 5 5 b c c c . . 
+            . . c b b b c d 5 5 b c . . . . 
+            `)) {
+            Enemies.setVelocity(20, 0)
+        }
+        if (Enemies.image.equals(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . b 5 5 b . . . 
+            . . . . . . b b b b b b . . . . 
+            . . . . . b b 5 5 5 5 5 b . . . 
+            . b b b b b 5 5 5 5 5 5 5 b . . 
+            . b d 5 b 5 5 5 5 5 5 5 5 b . . 
+            . . b 5 5 b 5 d 1 f 5 d 4 f . . 
+            . . b d 5 5 b 1 f f 5 4 4 c . . 
+            b b d b 5 5 5 d f b 4 4 4 4 b . 
+            b d d c d 5 5 b 5 4 4 4 4 4 4 b 
+            c d d d c c b 5 5 5 5 5 5 5 b . 
+            c b d d d d d 5 5 5 5 5 5 5 b . 
+            . c d d d d d d 5 5 5 5 5 d b . 
+            . . c b d d d d d 5 5 5 b b . . 
+            . . . c c c c c c c c b b . . . 
+            `)) {
+            Enemies.setVelocity(30, 0)
+        }
+    }
+}
+let Enemies: Sprite = null
 let Difficulty_Menu: miniMenu.MenuSprite = null
-let Island = 0
-let list: number[] = []
+let Difficulty_Tweak = 0
+let list: Image[] = []
 let RHitBoxSlash: Sprite = null
-let Facing_Right = false
 let LastTimeStamp = 0
+let Facing_Right = false
 let MainPlayer: Sprite = null
 let Jump = 0
 let Swapping = 0
@@ -527,5 +682,29 @@ MainMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
         StagePlay()
         CallMainPlayer()
         CallSpawn(0)
+        CallSpawn(1)
+        tiles.placeOnTile(MainPlayer, tiles.getTileLocation(4, 3))
+    }
+})
+game.onUpdate(function () {
+    for (let value of sprites.allOfKind(SpriteKind.Enemy)) {
+        if (value.isHittingTile(CollisionDirection.Bottom)) {
+            if (value.vx < 0 && value.tileKindAt(TileDirection.Left, assets.tile`transparency16`)) {
+                value.vy = 150
+            } else if (value.vx > 0 && value.tileKindAt(TileDirection.Right, assets.tile`transparency16`)) {
+                value.vy = 150
+            }
+        } else if (value.isHittingTile(CollisionDirection.Left)) {
+            value.vx = 30
+        } else if (value.isHittingTile(CollisionDirection.Right)) {
+            value.vx = -30
+        }
+        if (!(value.isHittingTile(CollisionDirection.Bottom))) {
+            if (value.vx < 0 && value.tileKindAt(TileDirection.Left, assets.tile`transparency16`)) {
+                value.vy = 150
+            } else if (value.vx > 0 && value.tileKindAt(TileDirection.Right, assets.tile`transparency16`)) {
+                value.vy = 150
+            }
+        }
     }
 })
