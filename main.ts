@@ -1,6 +1,7 @@
 namespace SpriteKind {
     export const Hitbox = SpriteKind.create()
 }
+// uses "mini menu" code
 function Difficulty_Men (num: number) {
     if (num == 0) {
         Difficulty_Menu = miniMenu.createMenu(
@@ -53,6 +54,7 @@ function Difficulty_Men (num: number) {
     }
     Swapping = 0
 }
+// Code provided by teacher
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MainPlayer) {
         if (Jump < 2) {
@@ -71,7 +73,6 @@ scene.onHitWall(SpriteKind.Player, function (sprite, location) {
 })
 sprites.onOverlap(SpriteKind.Hitbox, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
-    info.changeScoreBy(1)
 })
 // Character Swapping
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -114,6 +115,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         }
     }
 })
+// used to attack with character
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MainPlayer && Swapping == 0) {
         CharacterAttacks(0)
@@ -553,6 +555,7 @@ function CallMainPlayer () {
     controller.moveSprite(MainPlayer, 100, 0)
     scene.cameraFollowSprite(MainPlayer)
 }
+// code provided by teacher
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     if (MainPlayer) {
         MainPlayer.vy = 150
@@ -631,6 +634,7 @@ function CallSpawn (num: number) {
         CallEnemies(list)
     }
 }
+// Uses "story" code 
 function Story () {
     scene.setBackgroundImage(img`
         ffffffffffffffffffffffffffffffffffff
@@ -767,7 +771,7 @@ function CharacterAttacks (num: number) {
                 . . . . . . c b d b c . . . . . 
                 . . . . . . . b d b . . . . . . 
                 . . . . . . . . . . . . . . . . 
-                `, MainPlayer, 200, 0)
+                `, MainPlayer, -200, 0)
         }
     }
     if (num == 2) {
@@ -855,7 +859,7 @@ function CharacterAttacks (num: number) {
                 . . . . . . c b d b c . . . . . 
                 . . . . . . . b d b . . . . . . 
                 . . . . . . . . . . . . . . . . 
-                `, MainPlayer, 75, 0)
+                `, MainPlayer, -75, 0)
         }
     }
 }
@@ -1281,7 +1285,7 @@ MainMenu.onButtonPressed(controller.A, function (selection, selectedIndex) {
         tiles.placeOnTile(MainPlayer, tiles.getTileLocation(4, 3))
     }
 })
-// The enemies AI and checks difficulty tweak to change enemy ai
+// The enemies AI and checks difficulty tweak to change enemy ai provided by makecode
 game.onUpdate(function () {
     for (let value2 of sprites.allOfKind(SpriteKind.Enemy)) {
         if (Difficulty_Tweak == 0) {
